@@ -4,6 +4,8 @@ const els = {
   titleVal: document.getElementById("titleVal"),
   titleFontSize: document.getElementById("titleFontSize"),
   titleSpacing: document.getElementById("titleSpacing"),
+  titleOffsetX: document.getElementById("titleOffsetX"),
+  titleOffsetY: document.getElementById("titleOffsetY"),
   noVal: document.getElementById("noVal"),
   sceneVal: document.getElementById("sceneVal"),
   cutVal: document.getElementById("cutVal"),
@@ -82,6 +84,9 @@ function drawTextOnly(ctx, w, h) {
 
   const dx = ((parseFloat(els.offsetX.value) || 0) / 100) * w;
   const dy = ((parseFloat(els.offsetY.value) || 0) / 100) * h;
+  const titleDx = ((parseFloat(els.titleOffsetX.value) || 0) / 100) * w;
+  const titleDy = ((parseFloat(els.titleOffsetY.value) || 0) / 100) * h;
+
   const basePxSize = Math.max(12, ((parseFloat(els.fontSize.value) || 4) / 100) * h);
   const titlePxSize = Math.max(12, ((parseFloat(els.titleFontSize.value) || 4) / 100) * h);
   const weight = els.fontWeight.value || "600";
@@ -95,7 +100,13 @@ function drawTextOnly(ctx, w, h) {
 
   ctx.font = `${weight} ${Math.round(titlePxSize)}px ${els.fontFamily.value}`;
   ctx.textAlign = "left";
-  drawTrackedText(ctx, els.titleVal.value.trim(), w * 0.095 + dx, rowY, els.titleSpacing.value);
+  drawTrackedText(
+    ctx,
+    els.titleVal.value.trim(),
+    w * 0.095 + dx + titleDx,
+    rowY + titleDy,
+    els.titleSpacing.value
+  );
 
   ctx.font = `${weight} ${Math.round(basePxSize)}px ${els.fontFamily.value}`;
   ctx.textAlign = "left";
@@ -172,6 +183,8 @@ els.downloadBtn.addEventListener("click", () => {
 els.resetBtn.addEventListener("click", () => {
   els.offsetX.value = 0;
   els.offsetY.value = 0.8;
+  els.titleOffsetX.value = 0;
+  els.titleOffsetY.value = 0;
   els.titleFontSize.value = 4;
   els.titleSpacing.value = 0;
   renderPreview();
